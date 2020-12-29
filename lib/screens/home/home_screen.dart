@@ -22,7 +22,7 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
     _ctx = context;
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Home"),
+        title: new Text("My contacts"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.logout),

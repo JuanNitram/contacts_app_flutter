@@ -57,14 +57,14 @@ class LoginScreenState extends State<LoginScreen>
   Widget build(BuildContext context) {
     _ctx = context;
 
-    var loginBtn = new ElevatedButton(
+    var loginBtn = new RaisedButton(
         onPressed: _submit,
-        child: new Text("LOGIN"),
-        style: ElevatedButton.styleFrom(
-          textStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
+        child: new Text("Sign In", style: TextStyle(fontSize: 18)),
+        color: Colors.purple[200],
+        textColor: Colors.white,
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
         ));
 
     var loginForm = new Column(
@@ -74,7 +74,7 @@ class LoginScreenState extends State<LoginScreen>
           child: new Column(
             children: <Widget>[
               new Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: new TextFormField(
                   initialValue: 'user@user.com',
                   onSaved: (val) => _username = val,
@@ -83,23 +83,40 @@ class LoginScreenState extends State<LoginScreen>
                         ? "Username must have atleast 10 chars"
                         : null;
                   },
-                  decoration: new InputDecoration(labelText: "Username"),
+                  decoration: new InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(28.0),
+                          borderSide: BorderSide(color: Colors.purple[200])),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(28.0),
+                          borderSide: BorderSide(color: Colors.purple[200]))),
                 ),
               ),
               new Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: new TextFormField(
                   initialValue: 'password',
                   onSaved: (val) => _password = val,
-                  decoration: new InputDecoration(labelText: "Password"),
+                  decoration: new InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(28.0),
+                          borderSide: BorderSide(color: Colors.purple[200])),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(28.0),
+                          borderSide: BorderSide(color: Colors.purple[200]))),
                 ),
               ),
             ],
           ),
         ),
         new Container(
-          child: _isLoading ? new CircularProgressIndicator() : loginBtn,
-          width: _isLoading ? null : 350.0,
+          child: _isLoading
+              ? new CircularProgressIndicator(
+                  valueColor:
+                      new AlwaysStoppedAnimation<Color>(Colors.purple[200]),
+                )
+              : loginBtn,
+          width: _isLoading ? null : 250.0,
           padding: EdgeInsets.fromLTRB(0, 20.0, 0, 0),
         )
       ],
