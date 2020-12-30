@@ -60,7 +60,7 @@ class LoginScreenState extends State<LoginScreen>
     var loginBtn = new RaisedButton(
         onPressed: _submit,
         child: new Text("Sign In", style: TextStyle(fontSize: 18)),
-        color: Colors.purple[200],
+        color: Colors.deepPurple[500],
         textColor: Colors.white,
         padding: EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
@@ -86,10 +86,12 @@ class LoginScreenState extends State<LoginScreen>
                   decoration: new InputDecoration(
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(28.0),
-                          borderSide: BorderSide(color: Colors.purple[200])),
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple[500])),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(28.0),
-                          borderSide: BorderSide(color: Colors.purple[200]))),
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple[500]))),
                 ),
               ),
               new Padding(
@@ -100,12 +102,20 @@ class LoginScreenState extends State<LoginScreen>
                   decoration: new InputDecoration(
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(28.0),
-                          borderSide: BorderSide(color: Colors.purple[200])),
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple[500])),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(28.0),
-                          borderSide: BorderSide(color: Colors.purple[200]))),
+                          borderSide:
+                              BorderSide(color: Colors.deepPurple[500]))),
                 ),
               ),
+              new Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 5),
+                  child: Text(
+                    'Forgot your password?',
+                    style: TextStyle(color: Colors.deepPurple[500]),
+                  )),
             ],
           ),
         ),
@@ -113,34 +123,58 @@ class LoginScreenState extends State<LoginScreen>
           child: _isLoading
               ? new CircularProgressIndicator(
                   valueColor:
-                      new AlwaysStoppedAnimation<Color>(Colors.purple[200]),
+                      new AlwaysStoppedAnimation<Color>(Colors.deepPurple[500]),
                 )
               : loginBtn,
           width: _isLoading ? null : 250.0,
-          padding: EdgeInsets.fromLTRB(0, 20.0, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 10.0, 0, 0),
         )
       ],
       crossAxisAlignment: CrossAxisAlignment.center,
     );
 
     return new Scaffold(
-      appBar: null,
-      key: scaffoldKey,
-      body: new Container(
-        child: new Center(
-          child: new ClipRect(
-            child: new BackdropFilter(
-              filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: new Container(
-                child: loginForm,
-                height: 300.0,
-                width: 350.0,
+        appBar: null,
+        key: scaffoldKey,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/images/1.png"))),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+              child: Text(
+                "Hello,\nWelcome Back!",
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.deepPurple[500],
+                    fontWeight: FontWeight.bold),
               ),
             ),
-          ),
-        ),
-      ),
-    );
+            Container(
+              child: new Center(
+                child: new ClipRect(
+                  child: new BackdropFilter(
+                    filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                    child: new Container(
+                      child: loginForm,
+                      height: 300.0,
+                      width: 350.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 
   @override
