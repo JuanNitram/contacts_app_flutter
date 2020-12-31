@@ -86,11 +86,11 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
         ],
       ),
       body: Container(
+        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
         child: ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                   onTap: () {
-                    print("OK");
                     Navigator.push(
                         _ctx,
                         MaterialPageRoute(
@@ -108,7 +108,8 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
                                   child: CircleAvatar(
-                                    backgroundColor: Colors.purple,
+                                    backgroundImage:
+                                        NetworkImage(entries[index].avatar),
                                     radius: 22,
                                   )),
                               Padding(
