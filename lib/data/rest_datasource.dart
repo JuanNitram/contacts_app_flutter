@@ -20,7 +20,8 @@ class RestDatasource {
   }
 
   Future<List<Contact>> contacts() async {
-    var token = await AuthStateProvider.internal().token();
+    var db = new DatabaseHelper();
+    var token = await db.token();
 
     final response = await http
         .get(CONTACTS_URL, headers: {"Authorization": "Bearer ${token}"});

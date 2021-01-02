@@ -24,25 +24,34 @@ class DetailScreen extends StatelessWidget {
           padding: EdgeInsets.all(20.0),
           child: Column(children: <Widget>[
             Row(children: <Widget>[
-              CircleAvatar(
-                backgroundImage: NetworkImage(contact.avatar),
-                radius: 38,
-              ),
-              Container(
-                height: 100,
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(contact.avatar),
+                    radius: 38,
+                  )),
+              Expanded(
+                // height: 100,
+                // padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(contact.name,
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black)),
-                    Flexible(
-                      child: Text(contact.about,
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 5, 0),
+                      child: Text(contact.name,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontSize: 16, color: Colors.deepPurple[500])),
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 5, 0),
+                      child: Text(contact.about,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          style: TextStyle(
+                              fontSize: 14, color: Colors.deepPurple[500])),
                     )
                   ],
                 ),
@@ -63,7 +72,7 @@ class DetailScreen extends StatelessWidget {
                     Text(
                       contact.address,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.deepPurple[500],
                       ),
                     )
@@ -84,7 +93,7 @@ class DetailScreen extends StatelessWidget {
                     Text(
                       contact.phone,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.deepPurple[500],
                       ),
                     )
@@ -105,7 +114,7 @@ class DetailScreen extends StatelessWidget {
                     Text(
                       'email@email.com',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.deepPurple[500],
                       ),
                     )

@@ -23,7 +23,8 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
   }
 
   Future<String> fetchContacts() async {
-    var isLoggedIn = await AuthStateProvider.internal().isLoggedIn();
+    var db = new DatabaseHelper();
+    var isLoggedIn = await db.isLoggedIn();
 
     if (isLoggedIn) {
       RestDatasource api = new RestDatasource();
