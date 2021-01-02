@@ -95,7 +95,6 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
         alignment: Alignment.center,
         child: _isLoading
             ? new CircularProgressIndicator(
@@ -114,7 +113,6 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
                       },
                       child: Container(
                           height: 58,
-                          color: null,
                           margin: const EdgeInsets.all(5),
                           child: Column(
                             children: <Widget>[
@@ -145,7 +143,12 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
                                             style: new TextStyle(fontSize: 15),
                                           ),
                                         ],
-                                      ))
+                                      )),
+                                  Expanded(
+                                      child: Container(
+                                          alignment: Alignment.centerRight,
+                                          child: Icon(Icons.arrow_forward_ios,
+                                              size: 20)))
                                 ],
                               )
                             ],
