@@ -57,9 +57,9 @@ class LoginScreenState extends State<LoginScreen>
   Widget build(BuildContext context) {
     _ctx = context;
 
-    var loginBtn = new RaisedButton(
+    var loginBtn = RaisedButton(
         onPressed: _submit,
-        child: new Text("Sign In", style: TextStyle(fontSize: 18)),
+        child: Text("SIGN IN", style: TextStyle(fontSize: 18)),
         color: Colors.deepPurple[500],
         textColor: Colors.white,
         padding: EdgeInsets.all(10.0),
@@ -67,15 +67,15 @@ class LoginScreenState extends State<LoginScreen>
           borderRadius: BorderRadius.circular(18.0),
         ));
 
-    var loginForm = new Column(
+    var loginForm = Column(
       children: <Widget>[
-        new Form(
+        Form(
           key: formKey,
-          child: new Column(
+          child: Column(
             children: <Widget>[
-              new Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new TextFormField(
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
                   initialValue: 'user@user.com',
                   onSaved: (val) => _username = val,
                   validator: (val) {

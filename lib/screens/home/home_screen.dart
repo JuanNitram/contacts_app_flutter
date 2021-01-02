@@ -16,6 +16,7 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
   BuildContext _ctx;
   List<Contact> entries = <Contact>[];
   AuthState authState;
+  bool _isLoading = false;
 
   HomeScreenState() {
     var authStateProvider = new AuthStateProvider();
@@ -27,12 +28,14 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
     var isLoggedIn = await db.isLoggedIn();
 
     if (isLoggedIn) {
+      setState(() => _isLoading = true);
       RestDatasource api = new RestDatasource();
 
       var contacts = await api.contacts();
 
       setState(() {
         entries = contacts;
+        _isLoading = false;
       });
     }
   }
@@ -93,58 +96,64 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-        child: ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        _ctx,
-                        MaterialPageRoute(
-                            builder: (_ctx) =>
-                                DetailScreen(contact: entries[index])));
-                  },
-                  child: Container(
-                      height: 58,
-                      color: null,
-                      margin: const EdgeInsets.all(5),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(entries[index].avatar),
-                                    radius: 22,
-                                  )),
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "${entries[index].name}",
-                                        style: new TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "${entries[index].address}",
-                                        style: new TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ))
+        alignment: Alignment.center,
+        child: _isLoading
+            ? new CircularProgressIndicator(
+                valueColor:
+                    new AlwaysStoppedAnimation<Color>(Colors.deepPurple[500]),
+              )
+            : ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            _ctx,
+                            MaterialPageRoute(
+                                builder: (_ctx) =>
+                                    DetailScreen(contact: entries[index])));
+                      },
+                      child: Container(
+                          height: 58,
+                          color: null,
+                          margin: const EdgeInsets.all(5),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(entries[index].avatar),
+                                        radius: 22,
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 0, 0, 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            "${entries[index].name}",
+                                            style: new TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "${entries[index].address}",
+                                            style: new TextStyle(fontSize: 15),
+                                          ),
+                                        ],
+                                      ))
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      )));
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-            itemCount: entries.length),
+                          )));
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+                itemCount: entries.length),
       ),
     );
   }

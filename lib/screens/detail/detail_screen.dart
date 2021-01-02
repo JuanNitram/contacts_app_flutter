@@ -119,7 +119,23 @@ class DetailScreen extends StatelessWidget {
                       ),
                     )
                   ])
-            ])
+            ]),
+            Expanded(
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      width: 200,
+                      child: RaisedButton(
+                          onPressed: () => {},
+                          child:
+                              new Text("EDIT", style: TextStyle(fontSize: 18)),
+                          color: Colors.deepPurple[500],
+                          textColor: Colors.white,
+                          padding: EdgeInsets.all(10.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          )))),
+            )
           ]),
         ));
   }
