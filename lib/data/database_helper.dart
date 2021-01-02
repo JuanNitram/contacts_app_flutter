@@ -16,7 +16,7 @@ class DatabaseHelper {
   DatabaseHelper.internal();
 
   Future<Database> get db async {
-    if(_db != null) {
+    if (_db != null) {
       return _db;
     }
 
@@ -33,27 +33,35 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE User(email TEXT, token TEXT)");
+    await db.execute("CREATE TABLE User(token TEXT)");
   }
 
   Future<int> saveUser(User user) async {
     var dbClient = await db;
-    int res = await dbClient.insert("User", user.toMap());
+    int query = await dbClient.insert("User", user.toMap());
 
-    return res;
+    return query;
   }
 
   Future<int> deleteUsers() async {
     var dbClient = await db;
-    var res = await dbClient.delete("User");
+    var query = await dbClient.delete("User");
 
-    return res;
+    return query;
   }
 
   Future<bool> isLoggedIn() async {
     var dbClient = await db;
-    var res = await dbClient.query("User");
-    
-    return res.length > 0? true: false;
+    var query = await dbClient.query("User");
+
+    return query.length > 0 ? true : false;
+  }
+
+  Future<String> token() async {
+    var dbClient = await db;
+    var query = await dbClient.query("User");
+    var user = User.fromJson(query[0]);
+
+    return user.token;
   }
 }

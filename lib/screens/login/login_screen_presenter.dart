@@ -1,4 +1,4 @@
-import 'package:flutter_login/data/rest_ds.dart';
+import 'package:flutter_login/data/rest_datasource.dart';
 import 'package:flutter_login/models/user.dart';
 
 abstract class LoginScreenContract {

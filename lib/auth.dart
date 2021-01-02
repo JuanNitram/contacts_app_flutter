@@ -21,6 +21,7 @@ class AuthStateProvider {
   void initState() async {
     var db = new DatabaseHelper();
     var isLoggedIn = await db.isLoggedIn();
+
     if (isLoggedIn)
       notify(AuthState.LOGGED_IN);
     else
@@ -45,5 +46,19 @@ class AuthStateProvider {
     _suscribers.forEach((AuthStateListener s) {
       s.onAuthStateChanged(state);
     });
+  }
+
+  Future<bool> isLoggedIn() async {
+    var db = new DatabaseHelper();
+    var isLoggedIn = await db.isLoggedIn();
+
+    return isLoggedIn;
+  }
+
+  Future<String> token() async {
+    var db = new DatabaseHelper();
+    var token = await db.token();
+
+    return token;
   }
 }

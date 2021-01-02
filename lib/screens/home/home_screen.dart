@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/auth.dart';
 import 'package:flutter_login/data/database_helper.dart';
-import 'package:flutter_login/data/rest_ds.dart';
+import 'package:flutter_login/data/rest_datasource.dart';
 import 'package:flutter_login/models/contact.dart';
 import 'package:flutter_login/screens/detail/detail_screen.dart';
 
@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
   BuildContext _ctx;
   List<Contact> entries = <Contact>[];
+  AuthState authState;
 
   HomeScreenState() {
     var authStateProvider = new AuthStateProvider();
@@ -22,13 +23,17 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
   }
 
   Future<String> fetchContacts() async {
-    RestDatasource api = new RestDatasource();
+    var isLoggedIn = await AuthStateProvider.internal().isLoggedIn();
 
-    var contacts = await api.contacts();
+    if (isLoggedIn) {
+      RestDatasource api = new RestDatasource();
 
-    setState(() {
-      entries = contacts;
-    });
+      var contacts = await api.contacts();
+
+      setState(() {
+        entries = contacts;
+      });
+    }
   }
 
   @override
@@ -98,7 +103,7 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
                                 DetailScreen(contact: entries[index])));
                   },
                   child: Container(
-                      height: 50,
+                      height: 58,
                       color: null,
                       margin: const EdgeInsets.all(5),
                       child: Column(
