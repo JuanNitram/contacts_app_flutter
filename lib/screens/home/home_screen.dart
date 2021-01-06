@@ -111,48 +111,67 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
                                 builder: (_ctx) =>
                                     DetailScreen(contact: entries[index])));
                       },
-                      child: Container(
-                          height: 58,
-                          margin: const EdgeInsets.all(5),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(entries[index].avatar),
-                                        radius: 22,
-                                      )),
-                                  Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          15, 0, 0, 0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "${entries[index].name}",
-                                            style: new TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "${entries[index].address}",
-                                            style: new TextStyle(fontSize: 15),
-                                          ),
-                                        ],
-                                      )),
-                                  Expanded(
-                                      child: Container(
-                                          alignment: Alignment.centerRight,
-                                          child: Icon(Icons.arrow_forward_ios,
-                                              size: 20)))
+                      child: Dismissible(
+                          key: UniqueKey(),
+                          background: Container(),
+                          secondaryBackground: Container(
+                            child: Center(
+                              child: Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            color: Colors.red,
+                          ),
+                          onDismissed: (DismissDirection direction) =>
+                              {print(direction)},
+                          child: Container(
+                              height: 58,
+                              margin: const EdgeInsets.all(5),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: [
+                                      Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                entries[index].avatar),
+                                            radius: 22,
+                                          )),
+                                      Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 0, 0, 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                "${entries[index].name}",
+                                                style: new TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "${entries[index].address}",
+                                                style:
+                                                    new TextStyle(fontSize: 15),
+                                              ),
+                                            ],
+                                          )),
+                                      Expanded(
+                                          child: Container(
+                                              alignment: Alignment.centerRight,
+                                              child: Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 20,
+                                                color: Colors.deepPurple[500],
+                                              )))
+                                    ],
+                                  )
                                 ],
-                              )
-                            ],
-                          )));
+                              ))));
                 },
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider(),
