@@ -4,6 +4,7 @@ import 'package:flutter_login/data/database_helper.dart';
 import 'package:flutter_login/data/rest_datasource.dart';
 import 'package:flutter_login/models/contact.dart';
 import 'package:flutter_login/screens/detail/detail_screen.dart';
+import 'package:flutter_login/screens/home/home_screen_presenter.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,38 +13,53 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
+class HomeScreenState extends State<HomeScreen>
+    implements AuthStateListener, HomeScreenContract {
   BuildContext _ctx;
   List<Contact> entries = <Contact>[];
   AuthState authState;
   bool _isLoading = false;
+  HomeScreenPresenter _presenter;
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
 
   HomeScreenState() {
+    _presenter = new HomeScreenPresenter(this);
     var authStateProvider = new AuthStateProvider();
     authStateProvider.subscribe(this);
   }
 
-  Future<String> fetchContacts() async {
-    var db = new DatabaseHelper();
-    var isLoggedIn = await db.isLoggedIn();
+  Future init() async {
+    var isLoggedIn = await this._presenter.isLoggedIn();
 
     if (isLoggedIn) {
       setState(() => _isLoading = true);
-      RestDatasource api = new RestDatasource();
-
-      var contacts = await api.contacts();
-
-      setState(() {
-        entries = contacts;
-        _isLoading = false;
-      });
+      await this._presenter.getContacts();
     }
   }
 
   @override
   void initState() {
     super.initState();
-    this.fetchContacts();
+    this.init();
+  }
+
+  void _showSnackBar(String text) {
+    scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(text)));
+  }
+
+  @override
+  void onGetContactsError(String errorTxt) {
+    _showSnackBar(errorTxt);
+    setState(() => _isLoading = false);
+  }
+
+  @override
+  void onGetContactsSuccess(List<Contact> contacts) {
+    setState(() {
+      entries = contacts;
+      _isLoading = false;
+    });
   }
 
   @override
@@ -53,9 +69,7 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
   }
 
   void onLogout() async {
-    var db = new DatabaseHelper();
-    await db.deleteUsers();
-
+    await this._presenter.deleteUser();
     var authStateProvider = new AuthStateProvider();
     authStateProvider.notify(AuthState.LOGGED_OUT);
   }
@@ -115,16 +129,21 @@ class HomeScreenState extends State<HomeScreen> implements AuthStateListener {
                           key: UniqueKey(),
                           background: Container(),
                           secondaryBackground: Container(
-                            child: Center(
-                              child: Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                            // child: Center(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            child: Icon(
+                              Icons.delete,
+                              size: 30,
+                              color: Colors.white,
                             ),
+                            // ),
                             color: Colors.red,
                           ),
-                          onDismissed: (DismissDirection direction) =>
-                              {print(direction)},
+                          onDismissed: (DismissDirection direction) async {
+                            // TO-DO Remove contact from database
+                            await this._presenter.getContacts();
+                          },
                           child: Container(
                               height: 58,
                               margin: const EdgeInsets.all(5),
